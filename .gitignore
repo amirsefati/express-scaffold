@@ -1,0 +1,13 @@
+# Dependency directory
+node_modules
+
+# Compiled binary addons
+build/Release
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Optional npm cache directory
+.npm
