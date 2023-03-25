@@ -1,0 +1,22 @@
+{
+  "name": "express-scaffold",
+  "version": "1.0.0",
+  "description": "simple express scaffold with dockorize",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/amirsefati/express-scaffold.git"
+  },
+  "keywords": [
+    "express.js"
+  ],
+  "author": "amir sefati",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/amirsefati/express-scaffold/issues"
+  },
+  "homepage": "https://github.com/amirsefati/express-scaffold#readme"
+}
