@@ -2,7 +2,7 @@ var express = require("express");
 var app = express();
 var port = process.env.PORT || 3000;
 var mongoos = require("mongoose");
-var Book = require("./api/models/bookModel");
+var Book = require("./models/bookModel");
 var bodyParser = require("body-parser");
 
 mongoos.Promise = global.Promise;
@@ -15,7 +15,7 @@ app.use(function (req, res) {
   res.status(404).send({ url: req.originalUrl + " not found in app" });
 });
 
-var routes = require("./api/reoutes/booklistRoutes");
+var routes = require("./routes/booklistRoutes");
 routes(app);
 
 app.listen(port);
