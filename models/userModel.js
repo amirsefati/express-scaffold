@@ -1,6 +1,6 @@
 "use strict";
 
-var mongoos = require("mongoos");
+var mongoos = require("mongoose");
 var Schema = mongoos.Schema;
 
 var UserSchema = new Schema({
@@ -18,4 +18,4 @@ var UserSchema = new Schema({
   },
 });
 
-module.exports = mongoos.module("Users", UserSchema);
+module.exports = mongoos.model("Users", UserSchema);

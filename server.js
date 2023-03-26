@@ -2,6 +2,7 @@ var express = require("express");
 var mongoos = require("mongoose");
 var bodyParser = require("body-parser");
 var jwt = require("jsonwebtoken");
+var morgan = require("morgan");
 
 var app = express();
 var port = process.env.PORT || 3000;
@@ -16,11 +17,13 @@ mongoos.connect("mongodb://localhost/booklist");
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+app.use(morgan("dev"));
 app.use(function (req, res) {
   res.status(404).send({ url: req.originalUrl + " not found in app" });
 });
 
-var routes = require("./routes/booklistRoutes");
-routes(app);
+// register routes
+var routes = require("./routes/index");
+app.use("/", routes);
 
 app.listen(port);
