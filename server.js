@@ -1,9 +1,14 @@
 var express = require("express");
+var mongoos = require("mongoose");
+var bodyParser = require("body-parser");
+var jwt = require("jsonwebtoken");
+
 var app = express();
 var port = process.env.PORT || 3000;
-var mongoos = require("mongoose");
+
+//load models
 var Book = require("./models/bookModel");
-var bodyParser = require("body-parser");
+var User = require("./models/userModel");
 
 mongoos.Promise = global.Promise;
 mongoos.connect("mongodb://localhost/booklist");
