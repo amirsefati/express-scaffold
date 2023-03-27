@@ -19,13 +19,13 @@ app.set('secret', 'password-secret');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+// register routes
+var routes = require("./routes/index");
+app.use("/", routes);
+
 app.use(morgan("dev"));
 app.use(function (req, res) {
   res.status(404).send({ url: req.originalUrl + " not found in app" });
 });
-
-// register routes
-var routes = require("./routes/index");
-app.use("/", routes);
 
 app.listen(port);

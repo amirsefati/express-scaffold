@@ -1,13 +1,12 @@
-"use strict";
+const routes = require("express").Router();
+const booklist = require("../controllers/booklistController");
 
-module.exports = function (app) {
-  var booklist = require("../controllers/booklistController");
+routes.route("/").get(booklist.list_all_books).post(booklist.create_book);
 
-  app.route("/books").get(booklist.list_all_books).post(booklist.create_book);
+routes
+  .route("/:id")
+  .get(booklist.read_book)
+  .put(booklist.update_book)
+  .delete(booklist.delete_book);
 
-  app
-    .route("/book/:id")
-    .get(booklist.read_book)
-    .put(booklist.update_book)
-    .delete(booklist.delete_book);
-};
+module.exports = routes;

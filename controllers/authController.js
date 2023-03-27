@@ -28,7 +28,7 @@ exports.authenticate = function (req, res) {
         } else {
           // if user is found and password is right, create a token
           var token = jwt.sign(user, app.get("secret"), {
-            expiresInMinutes: 1440, // expires in 24 hours
+            expiresIn: 1440, // expires in 24 hours
           });
 
           // return the information including token as JSON
@@ -41,4 +41,34 @@ exports.authenticate = function (req, res) {
       }
     }
   );
+};
+
+exports.verify_token = function (req, res, next) {
+  // check header or url parameters or post parameters for token
+  var token =
+    req.body.token || req.query.token || req.headers["x-access-token"];
+
+  // decode token
+  if (token) {
+    // verifies secret and checks exp
+    jwt.verify(token, "password", function (err, decoded) {
+      // TODO: to settings
+      if (err) {
+        return res.json({
+          success: false,
+          message: "Failed to authenticate token.",
+        });
+      } else {
+        // if everything is good, save to request for use in other routes
+        req.decoded = decoded;
+        next();
+      }
+    });
+  } else {
+    // if there is no token, return an error
+    return res.status(403).send({
+      success: false,
+      message: "No token provided.",
+    });
+  }
 };
