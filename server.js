@@ -14,6 +14,8 @@ var User = require("./models/userModel");
 mongoos.Promise = global.Promise;
 mongoos.connect("mongodb://localhost/booklist");
 
+app.set('secret', 'password-secret');
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
