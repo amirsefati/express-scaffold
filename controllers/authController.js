@@ -11,15 +11,13 @@ var privateKey = configuration.key.privateKey;
 var tokenExpireInMinutes = configuration.key.tokenExpireInMinutes;
 
 exports.authenticate = function (req, res) {
-  User.select('+hash_password').exec(
-    {
-      email: req.body.email,
-    },
-    function (err, user) {
+  User.findOne({ email: req.body.email })
+    .select("+hash_password")
+    .exec(function (err, user) {
       if (err) throw err;
       // respond with error if user was not found
       if (!user) {
-        res.json({
+        res.status(401).json({
           success: false,
           message: "Authentication failed. User not found.",
         });
@@ -38,24 +36,25 @@ exports.authenticate = function (req, res) {
                 message: "Token created.",
                 token: token,
               });
-            } else {
-              // if user is found and password is right, create a token
-              var token = jwt.sign(user, privateKey, {
-                expiresIn: tokenExpireInMinutes, // expires in 24 hours
-              });
 
-              // return the information including token as JSON
+              var token = jwt.sign(user, privateKey, {
+                expiresIn: tokenExpireInMinutes,
+              });
               res.json({
                 success: true,
                 message: "Token created.",
                 token: token,
               });
+            } else {
+              res.status(401).json({
+                success: false,
+                message: "Authentication failed. Wrong password.",
+              });
             }
           }
         );
       }
-    }
-  );
+    });
 };
 
 exports.verify_token = function (req, res, next) {
@@ -69,7 +68,7 @@ exports.verify_token = function (req, res, next) {
     jwt.verify(token, privateKey, function (err, decoded) {
       // TODO: to settings
       if (err) {
-        return res.json({
+        return res.status(401).json({
           success: false,
           message: "Failed to authenticate token.",
         });
@@ -81,7 +80,7 @@ exports.verify_token = function (req, res, next) {
     });
   } else {
     // if there is no token, return an error
-    return res.status(403).send({
+    return res.status(401).send({
       success: false,
       message: "No token provided.",
     });
