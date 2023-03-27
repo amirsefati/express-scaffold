@@ -4,14 +4,14 @@ const auth = require("../controllers/authController");
 
 routes
   .route("/")
-  .get(auth.verify_token, userlist.list_all_users)
-  .post(userlist.create_user);
+  .get(auth.verify_token, userlist.list)
+  .post(userlist.create);
 
 routes
   .route("/:id")
   .all(auth.verify_token)
-  .get(userlist.read_user)
-  .put(userlist.update_user)
-  .delete(userlist.delete_user);
+  .get(userlist.read)
+  .put(userlist.update)
+  .delete(userlist.delete);
 
 module.exports = routes;
