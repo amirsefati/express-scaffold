@@ -1,11 +1,9 @@
-const routes = require("express").Router();
+const express = require("express");
+const routes = express.Router();
 const userlist = require("../controllers/userlistController");
 const auth = require("../controllers/authController");
 
-routes
-  .route("/")
-  .get(auth.verify_token, userlist.list)
-  .post(userlist.create);
+routes.route("/").get(auth.verify_token, userlist.list).post(userlist.create);
 
 routes
   .route("/:id")

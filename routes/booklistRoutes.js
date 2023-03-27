@@ -1,9 +1,10 @@
-const routes = require("express").Router();
+const express = require("express");
+const routes = express.Router();
 const booklist = require("../controllers/booklistController");
 const auth = require("../controllers/authController");
 
 routes.use(auth.verify_token);
-routes.route("/").get(booklist.list_all_books).post(booklist.create);
+routes.route("/").get(booklist.list).post(booklist.create);
 
 routes
   .route("/:id")
