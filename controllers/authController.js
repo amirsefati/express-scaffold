@@ -11,7 +11,7 @@ var privateKey = configuration.key.privateKey;
 var tokenExpireInMinutes = configuration.key.tokenExpireInMinutes;
 
 exports.authenticate = function (req, res) {
-  User.findOne(
+  User.select('+hash_password').exec(
     {
       email: req.body.email,
     },
