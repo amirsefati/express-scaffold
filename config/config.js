@@ -11,6 +11,6 @@ module.exports = {
   },
   key: {
     privateKey: "amir_amir_amir",
-    tokenExpiry: 1 * 30 * 1000 * 60,
+    tokenExpireInMinutes: 1440,
   },
 };

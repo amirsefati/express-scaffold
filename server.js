@@ -24,8 +24,5 @@ var routes = require("./routes/index");
 app.use("/", routes);
 
 app.use(morgan("dev"));
-app.use(function (req, res) {
-  res.status(404).send({ url: req.originalUrl + " not found in app" });
-});
 
 app.listen(port);

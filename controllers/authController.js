@@ -4,6 +4,11 @@ var mongoose = require("mongoose");
 var jwt = require("jsonwebtoken");
 var User = mongoose.model("Users");
 
+var configuration = require("../config/config");
+
+var privateKey = configuration.key.privateKey;
+var tokenExpireInMinutes = configuration.key.tokenExpireInMinutes;
+
 exports.authenticate = function (req, res) {
   User.findOne(
     {
@@ -27,8 +32,8 @@ exports.authenticate = function (req, res) {
           });
         } else {
           // if user is found and password is right, create a token
-          var token = jwt.sign(user, app.get("secret"), {
-            expiresIn: 1440, // expires in 24 hours
+          var token = jwt.sign(user, privateKey, {
+            expiresIn: tokenExpireInMinutes, // expires in 24 hours
           });
 
           // return the information including token as JSON
@@ -51,7 +56,7 @@ exports.verify_token = function (req, res, next) {
   // decode token
   if (token) {
     // verifies secret and checks exp
-    jwt.verify(token, "password", function (err, decoded) {
+    jwt.verify(token, privateKey, function (err, decoded) {
       // TODO: to settings
       if (err) {
         return res.json({
