@@ -4,10 +4,10 @@ module.exports = {
     port: 3000,
   },
   database: {
-    host: "localhost",
-    port: 27017,
-    db: "login",
-    url: "mongodb://127.0.0.1:27017/login",
+    url: "mongodb://localhost/book",
+    properties: {
+      useMongoClient: true,
+    },
   },
   key: {
     privateKey: "amir_amir_amir",

@@ -5,6 +5,7 @@ var jwt = require("jsonwebtoken");
 var morgan = require("morgan");
 
 const config = require("./config/config");
+const db = require("./config/db");
 
 var app = express();
 var port = process.env.PORT || config.server.port;
@@ -12,10 +13,6 @@ var port = process.env.PORT || config.server.port;
 //load models
 var Book = require("./models/bookModel");
 var User = require("./models/userModel");
-
-
-mongoos.Promise = global.Promise;
-mongoos.connect("mongodb://localhost/booklist");
 
 app.set("secret", "password-secret");
 
