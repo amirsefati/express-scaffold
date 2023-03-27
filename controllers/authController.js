@@ -3,6 +3,7 @@
 var mongoose = require("mongoose");
 var jwt = require("jsonwebtoken");
 var User = mongoose.model("Users");
+var bcrypt = require("bcrypt");
 
 var configuration = require("../config/config");
 
@@ -24,25 +25,34 @@ exports.authenticate = function (req, res) {
         });
       } else if (user) {
         // check if password matches
-        if (user.password != req.body.password) {
-          // respond with error if password does not match
-          res.json({
-            success: false,
-            message: "Authentication failed. Wrong password.",
-          });
-        } else {
-          // if user is found and password is right, create a token
-          var token = jwt.sign(user, privateKey, {
-            expiresIn: tokenExpireInMinutes, // expires in 24 hours
-          });
+        bcrypt.compare(
+          req.body.password,
+          user.hash_password,
+          function (err, doesMatch) {
+            if (doesMatch) {
+              var token = jwt.sign(user, privateKey, {
+                expiresIn: tokenExpireInMinutes,
+              });
+              res.json({
+                success: true,
+                message: "Token created.",
+                token: token,
+              });
+            } else {
+              // if user is found and password is right, create a token
+              var token = jwt.sign(user, privateKey, {
+                expiresIn: tokenExpireInMinutes, // expires in 24 hours
+              });
 
-          // return the information including token as JSON
-          res.json({
-            success: true,
-            message: "Token created.",
-            token: token,
-          });
-        }
+              // return the information including token as JSON
+              res.json({
+                success: true,
+                message: "Token created.",
+                token: token,
+              });
+            }
+          }
+        );
       }
     }
   );

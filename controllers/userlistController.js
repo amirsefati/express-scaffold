@@ -2,6 +2,7 @@
 
 var mongoose = require("mongoose");
 var User = mongoose.model("Users");
+var bcrypt = require("bcrypt");
 
 exports.list = function (req, res) {
   User.find({}, function (err, user) {
@@ -12,9 +13,12 @@ exports.list = function (req, res) {
 
 exports.create = function (req, res) {
   var new_user = new User(req.body);
-  new_user.save(function (err, user) {
-    if (err) res.send(err);
-    res.json(user);
+  bcrypt.hash(req.body.password, 10, function (err, hash_password) {
+    new_user.hash_password = hash_password;
+    new_user.save(function (err, user) {
+      if (err) res.send(err);
+      res.json(user);
+    });
   });
 };
 

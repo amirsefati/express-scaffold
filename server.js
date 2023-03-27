@@ -6,6 +6,7 @@ var morgan = require("morgan");
 
 const config = require("./config/config");
 const db = require("./config/db");
+var routes = require("./routes/index");
 
 var app = express();
 var port = process.env.PORT || config.server.port;
@@ -20,7 +21,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 // register routes
-var routes = require("./routes/index");
 app.use("/", routes);
 
 app.use(morgan("dev"));
