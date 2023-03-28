@@ -3,7 +3,6 @@
 var mongoose = require("mongoose");
 var jwt = require("jsonwebtoken");
 var User = mongoose.model("Users");
-var bcrypt = require("bcrypt");
 
 var configuration = require("../config/config");
 
@@ -23,11 +22,11 @@ exports.authenticate = function (req, res) {
         });
       } else if (user) {
         // check if password matches
-        bcrypt.compare(
+        user.verifyPassword(
           req.body.password,
           user.password,
-          function (err, doesMatch) {
-            if (doesMatch) {
+          function (err, isMatch) {
+            if (isMatch) {
               var token = jwt.sign(user, privateKey, {
                 expiresIn: tokenExpireInMinutes,
               });

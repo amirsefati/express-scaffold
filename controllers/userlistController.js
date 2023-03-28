@@ -2,7 +2,6 @@
 
 var mongoose = require("mongoose");
 var User = mongoose.model("Users");
-var bcrypt = require("bcrypt");
 
 exports.list = function (req, res) {
   User.find({}, function (err, user) {
