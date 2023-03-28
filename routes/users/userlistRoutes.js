@@ -4,6 +4,8 @@ const userlist = require("../../controllers/userlistController");
 const auth = require("../../controllers/authController");
 const books = require("./booklistRoutes");
 
+routes.use('/:userId/items', userlist.load_user, items);
+
 routes
   .route("/:id")
   .all(auth.verify_token)

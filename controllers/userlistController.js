@@ -49,3 +49,12 @@ exports.delete = function (req, res) {
     }
   );
 };
+
+exports.load_user = function (req, res, next) {
+  User.findById(req.params.userId, function (err, user) {
+    if (err) res.send(err);
+    if (!req.locals) req.locals = {};
+    req.locals.user = user;
+    next();
+  });
+};
