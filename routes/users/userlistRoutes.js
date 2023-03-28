@@ -1,7 +1,8 @@
 const express = require("express");
 const routes = express.Router();
-const userlist = require("../controllers/userlistController");
-const auth = require("../controllers/authController");
+const userlist = require("../../controllers/userlistController");
+const auth = require("../../controllers/authController");
+const books = require("./booklistRoutes");
 
 routes.route("/").get(auth.verify_token, userlist.list).post(userlist.create);
 

@@ -2,6 +2,7 @@
 
 var mongoos = require("mongoose");
 var Book = mongoos.model("Book");
+var User = mongoos.model("User");
 
 exports.list = function (req, res) {
   Book.find({}, function (err, book) {
@@ -13,10 +14,15 @@ exports.list = function (req, res) {
 };
 
 exports.create = function (req, res) {
-  var new_book = new Book(req.body);
-  new_book.save(function (err, book) {
+  User.findById(req.params.userId, function (err, user) {
     if (err) res.send(err);
-    res.json(book);
+
+    var new_item = new Item(req.body);
+    new_item.owner = user;
+    new_item.save(function (err, item) {
+      if (err) res.send(err);
+      res.json(item);
+    });
   });
 };
 

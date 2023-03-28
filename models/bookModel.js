@@ -6,7 +6,12 @@ var Schema = mongoos.Schema;
 var BookSchema = new Schema({
   title: {
     type: String,
-    Required: "Title of book is required",
+    required: "Title of book is required",
+  },
+  owner: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
   },
 });
 

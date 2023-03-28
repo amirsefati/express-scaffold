@@ -1,7 +1,7 @@
 const express = require("express");
-const routes = express.Router();
-const booklist = require("../controllers/booklistController");
-const auth = require("../controllers/authController");
+const routes = express.Router({ mergeParams: true });
+const booklist = require("../../controllers/booklistController");
+const auth = require("../../controllers/authController");
 
 routes.use(auth.verify_token);
 routes.route("/").get(booklist.list).post(booklist.create);

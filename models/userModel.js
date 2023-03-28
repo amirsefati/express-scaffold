@@ -14,6 +14,12 @@ var UserSchema = new Schema({
     required: true,
     index: { unique: true },
   },
+  items: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Item",
+    },
+  ],
   password: {
     type: String,
     select: false,
@@ -41,4 +47,4 @@ UserSchema.methods.verifyPassword = function (candidatePassword, callback) {
   });
 };
 
-module.exports = mongoos.model("Users", UserSchema);
+module.exports = mongoos.model("User", UserSchema);
