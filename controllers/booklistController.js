@@ -5,6 +5,12 @@ var Book = mongoos.model("Book");
 var User = mongoos.model("User");
 
 exports.list = function (req, res) {
+  if (req.current_user.id != req.params.userId)
+    return res
+      .status(403)
+      .json({
+        message: "You do not have rights to access list items of this user.",
+      });
   Book.find({ owner: req.params.userId }, function (err, book) {
     if (err) {
       res.send(err);
