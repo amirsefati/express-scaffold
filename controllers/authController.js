@@ -12,7 +12,7 @@ var tokenExpireInMinutes = configuration.key.tokenExpireInMinutes;
 
 exports.authenticate = function (req, res) {
   User.findOne({ email: req.body.email })
-    .select("+hash_password")
+    .select("+password")
     .exec(function (err, user) {
       if (err) throw err;
       // respond with error if user was not found
@@ -25,7 +25,7 @@ exports.authenticate = function (req, res) {
         // check if password matches
         bcrypt.compare(
           req.body.password,
-          user.hash_password,
+          user.password,
           function (err, doesMatch) {
             if (doesMatch) {
               var token = jwt.sign(user, privateKey, {
