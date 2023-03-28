@@ -11,12 +11,13 @@ var UserSchema = new Schema({
   },
   email: {
     type: String,
-    Required: "Email is required",
+    required: true,
+    index: { unique: true },
   },
   password: {
     type: String,
     select: false,
-    Required: "Password is required",
+    required: true,
   },
 });
 
