@@ -5,7 +5,7 @@ var Book = mongoos.model("Book");
 var User = mongoos.model("User");
 
 exports.list = function (req, res) {
-  Book.find({}, function (err, book) {
+  Book.find({ owner: req.params.userId }, function (err, book) {
     if (err) {
       res.send(err);
     }
