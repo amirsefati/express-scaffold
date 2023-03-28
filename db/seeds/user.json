@@ -1,0 +1,29 @@
+[
+    {
+        "_id": {
+            "$oid": "bbb50d0hhd9f6b4110ec1111"
+        },
+        "email": "amirsefati1@mail.com",
+        "password": "$2a$10$PwoCd0qHupOGXV9asgj86u5CaX0LTh2iPOEeG1dIhTwlRm.NaEXc.",
+        "items": [],
+        "__v": 0
+    },
+    {
+        "_id": {
+            "$oid": "bbb50d10dfr9f6b4110ec2222"
+        },
+        "email": "amirsefati2@mail.com",
+        "password": "$2a$10$PwoCd0qHupOGXV9asgj86u5CaX0LTh2iPOEeG1dIhTwlRm.NaEXc.",
+        "items": [],
+        "__v": 0
+    },
+    {
+        "_id": {
+            "$oid": "bbb50d152der6b4110ec3333"
+        },
+        "email": "amirsefati3@mail.com",
+        "password": "$2a$10$5DAedPMrbhxll.zkYr0qsO2L9WpwnMDVzxrKxtdK8N6y8PRWFlLdG",
+        "items": [],
+        "__v": 0
+    }
+]
