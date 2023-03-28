@@ -14,17 +14,15 @@ exports.list = function (req, res) {
 };
 
 exports.create = function (req, res) {
-  User.findById(req.params.userId, function (err, user) {
+  var user = req.locals.user;
+  var book = new Book(req.body);
+  book.owner = user;
+  book.save(function (err, item) {
     if (err) res.send(err);
-    var book = new Book(req.body);
-    book.owner = user;
-    book.save(function (err, item) {
+    user.book.push(item);
+    user.save(function (err, item) {
       if (err) res.send(err);
-      user.book.push(item);
-      user.save(function (err, item) {
-        if (err) res.send(err);
-        res.json(item);
-      });
+      res.json(item);
     });
   });
 };
