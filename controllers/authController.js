@@ -73,8 +73,11 @@ exports.verify_token = function (req, res, next) {
         });
       } else {
         // if everything is good, save to request for use in other routes
-        req.current_user = decoded;
-        next();
+        User.findById(decoded.id, function (err, user) {
+          if (err) res.send(err);
+          req.currentUser = user;
+          next();
+        });
       }
     });
   } else {
