@@ -36,6 +36,10 @@ exports.create = function (req, res) {
 };
 
 exports.read = function (req, res) {
+  if (!req.currentUser.canRead(req.locals.user))
+    return res
+      .status(403)
+      .send({ message: "You do not have rights to access this resource." });
   Book.findById(req.params.id, function (err, book) {
     if (err) return res.send(err);
     res.json(book);
