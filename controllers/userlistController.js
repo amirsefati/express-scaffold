@@ -4,9 +4,14 @@ var mongoose = require("mongoose");
 var User = mongoose.model("User");
 
 exports.list = function (req, res) {
-  User.find({}, function (err, user) {
-    if (err) res.send(err);
-    res.json(user);
+  if (!req.currentUser.canRead(req.locals.user))
+    return res
+      .status(403)
+      .send({ message: "You do not have rights to access this resource." });
+
+  Item.find({ owner: req.params.userId }, function (err, item) {
+    if (err) return res.send(err); // TODO: fix return
+    res.json(item);
   });
 };
 
