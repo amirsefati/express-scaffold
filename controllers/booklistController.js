@@ -6,11 +6,9 @@ var User = mongoos.model("User");
 
 exports.list = function (req, res) {
   if (req.current_user.id != req.params.userId)
-    return res
-      .status(403)
-      .json({
-        message: "You do not have rights to access list items of this user.",
-      });
+    return res.status(403).json({
+      message: "You do not have rights to access list items of this user.",
+    });
   Book.find({ owner: req.params.userId }, function (err, book) {
     if (err) {
       return res.send(err);
@@ -21,6 +19,10 @@ exports.list = function (req, res) {
 
 exports.create = function (req, res) {
   var user = req.locals.user;
+  if (!req.currentUser.canRead(user))
+    return res
+      .status(403)
+      .send({ message: "You do not have rights to access this resource." });
   var book = new Book(req.body);
   book.owner = user;
   book.save(function (err, item) {
