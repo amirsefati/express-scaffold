@@ -40,6 +40,10 @@ UserSchema.pre("save", function (next) {
   });
 });
 
+UserSchema.methods.canRead = function (object) {
+  return object.owner && object.owner == this.user.id;
+};
+
 UserSchema.methods.getTokenData = function () {
   return {
     id: this.id,
