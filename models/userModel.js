@@ -44,6 +44,10 @@ UserSchema.methods.canRead = function (object) {
   return object.id == this.id || (object.owner && object.owner == this.id);
 };
 
+UserSchema.methods.canEdit = function (object) {
+  return this.canRead(object); // can be extended later
+};
+
 UserSchema.methods.getTokenData = function () {
   return {
     id: this.id,
