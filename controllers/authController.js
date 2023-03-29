@@ -36,7 +36,7 @@ exports.authenticate = function (req, res) {
                 token: token,
               });
 
-              var token = jwt.sign(user, privateKey, {
+              var token = jwt.sign(user.getTokenData(), privateKey, {
                 expiresIn: tokenExpireInMinutes,
               });
               res.json({
@@ -73,7 +73,7 @@ exports.verify_token = function (req, res, next) {
         });
       } else {
         // if everything is good, save to request for use in other routes
-        req.decoded = decoded;
+        req.current_user = decoded;
         next();
       }
     });
