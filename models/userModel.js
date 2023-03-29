@@ -41,7 +41,7 @@ UserSchema.pre("save", function (next) {
 });
 
 UserSchema.methods.canRead = function (object) {
-  return object.owner && object.owner == this.user.id;
+  return object.id == this.id || (object.owner && object.owner == this.id);
 };
 
 UserSchema.methods.getTokenData = function () {
