@@ -40,8 +40,12 @@ UserSchema.pre("save", function (next) {
   });
 });
 
+UserSchema.methods.equals = function (user) {
+  return this.id == user.id && this.email == user.email;
+};
+
 UserSchema.methods.canRead = function (object) {
-  return object.id == this.id || (object.owner && object.owner == this.id);
+  return this.equals(object) == (object.owner && object.owner == this.id);
 };
 
 UserSchema.methods.canEdit = function (object) {
