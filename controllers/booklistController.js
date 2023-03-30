@@ -59,6 +59,11 @@ exports.update = function (req, res) {
 };
 
 exports.delete = function (req, res) {
+  var user = req.locals.user;
+  if (!req.currentUser.canEdit(user))
+    return res
+      .status(403)
+      .send({ message: "You do not have rights to access this resource." });
   Book.remove(
     {
       _id: req.params.id,
