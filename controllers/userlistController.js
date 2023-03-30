@@ -53,6 +53,7 @@ exports.delete = function (req, res) {
     },
     function (err, user) {
       if (err) return res.send(err);
+      if (!req.currentUser.canEdit(user)) return response.sendForbidden(res);
       res.json({ message: "user successfully deleted" });
     }
   );
