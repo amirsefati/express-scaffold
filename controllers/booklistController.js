@@ -36,26 +36,27 @@ exports.create = function (req, res) {
 };
 
 exports.read = function (req, res) {
-  if (!req.currentUser.canRead(req.locals.user))
-    return res
-      .status(403)
-      .send({ message: "You do not have rights to access this resource." });
   Book.findById(req.params.id, function (err, book) {
+    if (!req.currentUser.canRead(book))
+      return res
+        .status(403)
+        .send({ message: "You do not have rights to access this resource." });
     if (err) return res.send(err);
     res.json(book);
   });
 };
 
 exports.update = function (req, res) {
-  if (!req.currentUser.canEdit(user))
-    return res
-      .status(403)
-      .send({ message: "You do not have rights to access this resource." });
+  var user = req.locals.user;
   Book.findOneAndUpdate(
     { _id: req.params.id },
     req.body,
     { new: true },
     function (err, book) {
+      if (!req.currentUser.canEdit(user))
+        return res
+          .status(403)
+          .send({ message: "You do not have rights to access this resource." });
       if (err) return res.send(err);
       res.json(book);
     }
@@ -64,15 +65,15 @@ exports.update = function (req, res) {
 
 exports.delete = function (req, res) {
   var user = req.locals.user;
-  if (!req.currentUser.canEdit(user))
-    return res
-      .status(403)
-      .send({ message: "You do not have rights to access this resource." });
   Book.remove(
     {
       _id: req.params.id,
     },
     function (err, book) {
+      if (!req.currentUser.canEdit(user))
+        return res
+          .status(403)
+          .send({ message: "You do not have rights to access this resource." });
       if (err) return res.send(err);
       res.json({ message: "Book successfully deleted" });
     }
