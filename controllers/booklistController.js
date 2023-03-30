@@ -19,7 +19,7 @@ exports.list = function (req, res) {
 
 exports.create = function (req, res) {
   var user = req.locals.user;
-  if (!req.currentUser.canRead(user))
+  if (!req.currentUser.canEdit(user))
     return res
       .status(403)
       .send({ message: "You do not have rights to access this resource." });
@@ -47,6 +47,10 @@ exports.read = function (req, res) {
 };
 
 exports.update = function (req, res) {
+  if (!req.currentUser.canEdit(user))
+    return res
+      .status(403)
+      .send({ message: "You do not have rights to access this resource." });
   Book.findOneAndUpdate(
     { _id: req.params.id },
     req.body,
