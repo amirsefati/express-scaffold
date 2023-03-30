@@ -2,6 +2,7 @@
 
 var mongoose = require("mongoose");
 var User = mongoose.model("User");
+var response = require("../helpers/response");
 
 exports.list = function (req, res) {
   if (!req.currentUser.canRead(req.locals.user))
@@ -39,6 +40,7 @@ exports.update = function (req, res) {
     { new: true },
     function (err, user) {
       if (err) return res.send(err);
+      if (!req.currentUser.canEdit(user)) return response.sendForbidden(res);
       res.json(user);
     }
   );
