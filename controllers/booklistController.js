@@ -47,13 +47,12 @@ exports.read = function (req, res) {
 };
 
 exports.update = function (req, res) {
-  var user = req.locals.user;
   Book.findOneAndUpdate(
     { _id: req.params.id },
     req.body,
     { new: true },
     function (err, book) {
-      if (!req.currentUser.canEdit(user))
+      if (!req.currentUser.canEdit(book))
         return res
           .status(403)
           .send({ message: "You do not have rights to access this resource." });
@@ -64,13 +63,12 @@ exports.update = function (req, res) {
 };
 
 exports.delete = function (req, res) {
-  var user = req.locals.user;
   Book.remove(
     {
       _id: req.params.id,
     },
     function (err, book) {
-      if (!req.currentUser.canEdit(user))
+      if (!req.currentUser.canEdit(book))
         return res
           .status(403)
           .send({ message: "You do not have rights to access this resource." });
