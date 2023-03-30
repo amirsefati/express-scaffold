@@ -3,6 +3,7 @@
 var mongoos = require("mongoose");
 var Book = mongoos.model("Book");
 var User = mongoos.model("User");
+var response = require("../helpers/response");
 
 exports.list = function (req, res) {
   if (req.current_user.id != req.params.userId)
@@ -19,10 +20,7 @@ exports.list = function (req, res) {
 
 exports.create = function (req, res) {
   var user = req.locals.user;
-  if (!req.currentUser.canEdit(user))
-    return res
-      .status(403)
-      .send({ message: "You do not have rights to access this resource." });
+  if (!req.currentUser.canEdit(user)) return response.sendForbidden(res);
   var book = new Book(req.body);
   book.owner = user;
   book.save(function (err, item) {
@@ -37,10 +35,7 @@ exports.create = function (req, res) {
 
 exports.read = function (req, res) {
   Book.findById(req.params.id, function (err, book) {
-    if (!req.currentUser.canRead(book))
-      return res
-        .status(403)
-        .send({ message: "You do not have rights to access this resource." });
+    if (!req.currentUser.canRead(book)) return response.sendForbidden(res);
     if (err) return res.send(err);
     res.json(book);
   });
@@ -52,10 +47,7 @@ exports.update = function (req, res) {
     req.body,
     { new: true },
     function (err, book) {
-      if (!req.currentUser.canEdit(book))
-        return res
-          .status(403)
-          .send({ message: "You do not have rights to access this resource." });
+      if (!req.currentUser.canEdit(book)) return response.sendForbidden(res);
       if (err) return res.send(err);
       res.json(book);
     }
@@ -68,10 +60,7 @@ exports.delete = function (req, res) {
       _id: req.params.id,
     },
     function (err, book) {
-      if (!req.currentUser.canEdit(book))
-        return res
-          .status(403)
-          .send({ message: "You do not have rights to access this resource." });
+      if (!req.currentUser.canEdit(book)) return response.sendForbidden(res);
       if (err) return res.send(err);
       res.json({ message: "Book successfully deleted" });
     }
